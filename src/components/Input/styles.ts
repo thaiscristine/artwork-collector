@@ -31,13 +31,21 @@ export const Container = styled.div<ContainerProps>`
     props.isFilled &&
     css`
       color: #5B13BB;
+      border-color: #5B13BB;
     `}
-
+  
+  input:focus{
+    border: none;
+    box-shadow: 0;
+    outline: 0;
+  }
   input {
     flex: 1;
     background: transparent;
     border: 0;
     color: #5B13BB;
+
+    
 
     &::placeholder {
       color: #666360;
