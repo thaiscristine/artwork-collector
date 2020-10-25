@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Redirect, useHistory } from "react-router-dom";
+
 import { Link } from 'react-router-dom';
 import { FiCheck, FiNavigation, FiCamera } from 'react-icons/fi';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -9,13 +11,14 @@ import mapIcon from '../utils/mapIcon';
 import api from '../services/api';
 
 interface User {
-    charge: string;
-    _id: number;
-    username: string;
-    name: string;
-    lastname: string;
-    email: string;
+  charge: string;
+  _id: number;
+  username: string;
+  name: string;
+  lastname: string;
+  email: string;
 }
+
 interface Artwork {
   id: number;
   latitude: number;
@@ -34,13 +37,20 @@ interface Artwork {
 
 function ArtworksMap(){
 
+  const history = useHistory();
+
   const [users, setUsers] = useState<User[]>([]);
   const [artWorks, setArtWorks] = useState<Artwork[]>([]);
 
   navigator.geolocation.getCurrentPosition((position) => {
     const  { latitude, longitude } = position.coords;
     console.log(latitude, longitude);
-  })
+  });
+
+  // function handleArCamera(){
+  //   new Redirect('https://josefina-tech.umbler.net/');
+  //   history.push('/ra.html');
+  // };
 
   useEffect(() => {
     api.get('users').then(response => {
@@ -48,7 +58,7 @@ function ArtworksMap(){
     });
     // api.get('art').then(response => {
     //   setArtWorks(response.data); 
-    // });
+    // });  
 
     setArtWorks([
       {
@@ -112,9 +122,10 @@ function ArtworksMap(){
         </header>
         <footer>
           <strong>Realidade aumentada</strong>
-            <Link to="create" className="vr-artwork vr-artwork-desktop">
+            {/* <Link to="ar" className="vr-artwork vr-artwork-desktop"> */}
+            <a href="https://josefina-tech.umbler.net/" className="vr-artwork vr-artwork-desktop">
               <FiCamera size={ 32 } color="#fff" />
-            </Link>
+            </a>
         </footer>
       </aside>
       
@@ -149,11 +160,11 @@ function ArtworksMap(){
       </Map>
 
       {/* <Link to="/artworks/create" className="create-artwork"> */}
-      <Link to="create" className="vr-artwork vr-artwork-mobile">
+      <a href="https://josefina-tech.umbler.net/" className="vr-artwork vr-artwork-mobile">
         <FiCamera size={ 32 } color="#fff" />
-      </Link>
+      </a>
 
-      <Link to="create" className="create-artwork">
+      <Link to="ar" className="create-artwork">
         <FiNavigation size={ 32 } color="#fff" />
       </Link>
     </div>
