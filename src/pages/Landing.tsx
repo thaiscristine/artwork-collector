@@ -37,12 +37,13 @@ function Landing() {
       {/* <img src={logoImg} alt="Collectors" /> */}
       <form onSubmit={ handleLogin }>
         <h1>Faça o seu login</h1>
-        <Input icon={FiMail} name="email" type="text" placeholder="E-mail" onChange={e => setId(e.target.value)} />
+        <Input icon={FiMail} name="email" type="text" placeholder="E-mail" onChange={e => setId(e.target.value)} required />
         <Input
           icon={FiLock}
           name="password"
           type="password"
           placeholder="Senha"
+          required
         />
         <Button type="submit">Entrar</Button>
         <a href="forgot">Esqueci minha senha</a>

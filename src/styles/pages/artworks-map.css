@@ -37,12 +37,14 @@
 #page-map aside footer {
     display: flex;
     flex-direction: column;
+    align-items: center;
     line-height: 24px;
 }
 
 #page-map aside footer strong {
+    text-align: right;
     font-weight: 800;
-    color: #0d636f;
+    color: #fff;
 }
 
 #page-map .leaflet-container {
@@ -65,8 +67,46 @@
     align-items: center;
     transition: background-color 0.2s;
 }
+#page-map .vr-artwork {
+    
+    width: 64px;
+    height: 64px;
+    background: #8e46ec;
+    border-radius: 20px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+#page-map .vr-artwork-desktop {
+    margin-top: 20px;
+}
+@media screen and (max-width: 1024px) {
+    #page-map .vr-artwork-desktop {
+        display:none !important;
+    }    
+    #page-map .vr-artwork-mobile {
+        display:flex !important;
+    }
+}
 
-#page-map .create-artwork:hover {
+#page-map .vr-artwork-mobile {
+    justify-content: center;
+    align-items: center;
+    
+    position: absolute;
+    left: 40px;
+    bottom: 40px;
+
+    z-index: 11;
+    display: none;
+}
+#page-map .vr-artwork svg {
+    color: #fff;
+}
+
+#page-map .vr-artwork:hover, #page-map .create-artwork:hover {
     background-color: #5B13BB;
 }
 #page-map .map-popup .leaflet-popup-content-wrapper {
