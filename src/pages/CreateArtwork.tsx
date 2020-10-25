@@ -17,9 +17,6 @@ export default function CreateArtwork() {
   const [position, setPosition] = useState({ latitude:0, longitude: 0});
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [opening_hours, setOpeningHours] = useState('');
-  const [open_on_weekends, setOpenOnWeekends] = useState(true);
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
@@ -58,10 +55,7 @@ export default function CreateArtwork() {
     data.append('latitude', String(latitude));
     data.append('longitude', String(longitude));
     data.append('about', about);
-    data.append('instructions', instructions);
-    data.append('opening_hours', opening_hours);
-    data.append('open_on_weekends', String(open_on_weekends));
-
+    
     images.forEach(image => {
       data.append('images', image)
     });
@@ -72,7 +66,6 @@ export default function CreateArtwork() {
     history.push('/app');
   }
 
-  
   return (
     <div id="page-create-artwork">
       <Sidebar />
@@ -137,50 +130,6 @@ export default function CreateArtwork() {
 
             </div>
           </fieldset>
-
-          <fieldset>
-            <legend>Visitação</legend>
-
-            <div className="input-block">
-              <label htmlFor="instructions">Instruções</label>
-              <textarea 
-                id="instructions"
-                value={instructions}
-                onChange={event => setInstructions(event.target.value)}  
-              />
-            </div>
-
-            <div className="input-block">
-              <label htmlFor="opening_hours">Horário de funcionamento</label>
-              <input 
-                id="opening_hours"
-                value={opening_hours}
-                onChange={event => setOpeningHours(event.target.value)}  
-              />
-            </div>
-
-            <div className="input-block">
-              <label htmlFor="open_on_weekends">Atende fim de semana</label>
-
-              <div className="button-select">
-                <button 
-                  type="button" 
-                  className={open_on_weekends ? 'active' :''}
-                  onClick={() => setOpenOnWeekends(true)}
-                >
-                  Sim
-                </button>
-                <button
-                  type="button"
-                  className={!open_on_weekends ? 'active' :''}
-                  onClick={() => setOpenOnWeekends(false)}
-                >
-                  Não
-                </button>
-              </div>
-            </div>
-          </fieldset>
-
           <button className="confirm-button" type="submit">
             Confirmar
           </button>

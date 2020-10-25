@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiArrowRight, FiMap, FiMapPin } from 'react-icons/fi';
+import { FiCheck, FiNavigation, FiMapPin } from 'react-icons/fi';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import '../styles/pages/artworks-map.css';
@@ -20,7 +20,16 @@ interface Artwork {
   id: number;
   latitude: number;
   longitude: number;
-  name: string;
+  numero_do_registro: string;
+  denominacao: string;
+  descricao: string;
+  titulo: string;
+  governate: string;
+  tecnica: string;
+  materiais: string;
+  local_de_producao: string;
+  data_de_producao: string;
+  diametro: string;
 }
 
 function ArtworksMap(){
@@ -28,22 +37,69 @@ function ArtworksMap(){
   const [users, setUsers] = useState<User[]>([]);
   const [artWorks, setArtWorks] = useState<Artwork[]>([]);
 
+  navigator.geolocation.getCurrentPosition((position) => {
+    console.log(position.coords.latitude, position.coords.longitude);
+  })
+
   useEffect(() => {
     api.get('users').then(response => {
       setUsers(response.data); 
     });
-    // api.get('art').then(response => {
-    //   setArtWorks(response.data); 
-    // });
+    api.get('art').then(response => {
+      setArtWorks(response.data); 
+    });
 
-    setArtWorks([
-      {
-        id: 1,
-        latitude: -23.6944,
-        longitude: -46.5654,
-        name: 'testando',
-      }
-    ]);
+    // setArtWorks([
+    //     // id: 1,
+    //     // latitude: -23.6944,
+    //     // longitude: -46.5654,
+    //     // name: 'testando',
+    //   {
+    //     id: 1,
+    //     latitude: -23.6944,
+    //     longitude: -46.5654,
+    //     numero_do_registro:"182393",
+    //     denominacao:"Moeda",
+    //     descricao:"Anverso: Ao centro, as armas do Reino, cortando a legenda, entre 4.000 � esquerda, quatro flor�es � direita. Legenda:  PETRVS  . II . D . G . PORT . ET . ALG . REX . Reverso: Ao centro cruz de Cristo cantonada pela letra R. Legenda: * IN * HOC  * SIGNO * VINCES *. 1707. .",
+    //     titulo:"4000 réis; Moeda",
+    //     governate:"D. Pedro II (1683-1706)",
+    //     tecnica:"cunhagem",
+    //     materiais:"Ouro",
+    //     local_de_producao:"Rio de Janeiro",
+    //     data_de_producao:"1707",
+    //     diametro:"30"
+    //   },
+    //   {
+    //     id: 2,
+    //     latitude: -23.6844,
+    //     longitude: -46.5659,
+    //     numero_do_registro:"182577",
+    //     denominacao:"Moeda",
+    //     descricao:"Anverso: Ao centro, as armas do Reino, cortando a legenda, com 4000, entre duas flores de lis, � esquerda, e quatro flor�es, tamb�m entre duas flores de lis, � direita. Legenda: IOANNES . V  . D G . PORT . ET . ALG . REX  . Reverso: ao centro, a cruz de Cristo, com ponto no meio, cantonada por quatro R. Legenda:  + IN + HOC + SIGNO + VINCES + x 1708 x  .",
+    //     titulo:"4000 réis",
+    //     governate:"D. João V (1706-1750)",
+    //     tecnica:"cunhagem",
+    //     materiais:"Ouro",
+    //     local_de_producao:"Rio de Janeiro",
+    //     data_de_producao:"1708",
+    //     diametro:"30"
+    //   },
+    //   {
+    //     id: 3,
+    //     latitude: -23.6944,
+    //     longitude: -46.5464,
+    //     numero_do_registro:"182616",
+    //     denominacao:"Moeda",
+    //     descricao:"Anverso: Ao centro, a cabeça do rei, � direita, com cabeleira e coroa de louro, tendo, no exergo, a letra R. e o ano de 1736 e um ponto � direita. Legenda: IOANNES . V. D . PORT . ET . ALG . REX .  Reverso: As armas do Reino, ornamentadas, ocupando todo o campo.",
+    //     titulo:"800 réis; Meio escudo",
+    //     governate:"D. João V (1706-1750)",
+    //     tecnica:"cunhagem",
+    //     materiais:"Ouro",
+    //     local_de_producao:"Rio de Janeiro",
+    //     data_de_producao:"1736",
+    //     diametro:"15.9",
+    //   }
+    // ]);
   }, []);
 
   console.log(artWorks);
@@ -60,7 +116,6 @@ function ArtworksMap(){
         <footer>
           <strong>
               Ajuda
-              <FiMapPin />
           </strong>
         </footer>
       </aside>
@@ -84,9 +139,10 @@ function ArtworksMap(){
               maxWidth={240}
               className="map-popup"
               >
-                {artwork.name}
+                {artwork.titulo}
                 <Link to={`artworks/${artwork.id}`}>
-                    <FiArrowRight size={20} color='#fff' />
+                  Coletar obra de arte
+                    <FiCheck size={20} color='#fff' />
                 </Link>
               </Popup>
             </Marker>
@@ -96,7 +152,7 @@ function ArtworksMap(){
 
       {/* <Link to="/artworks/create" className="create-artwork"> */}
       <Link to="create" className="create-artwork">
-        <FiMap size={ 32 } color="#fff" />
+        <FiNavigation size={ 32 } color="#fff" />
       </Link>
     </div>
   );
