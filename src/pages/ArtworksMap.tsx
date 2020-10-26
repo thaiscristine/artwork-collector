@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
-import { FiCheck, FiNavigation, FiCamera } from 'react-icons/fi';
+import { FiCheck, FiNavigation, FiCamera, FiTrendingUp } from 'react-icons/fi';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import '../styles/pages/artworks-map.css';
 import mapIcon from '../utils/mapIcon';
 
+import imgLogo from '../images/logo.png'
 import api from '../services/api';
 
 interface User {
@@ -19,7 +20,7 @@ interface User {
 }
 
 interface Artwork {
-  id: number;
+  _id: number;
   latitude: number;
   longitude: number;
   numero_do_registro: string;
@@ -41,13 +42,18 @@ function ArtworksMap(){
   const [users, setUsers] = useState<User[]>([]);
   const [artWorks, setArtWorks] = useState<Artwork[]>([]);
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    const { latitude, longitude } = position.coords;
-    setUserLatitude(latitude);
-    setUserLongitude(longitude);
-  });
-
+  const handleUserLocation = useCallback(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      setUserLatitude(latitude);
+      setUserLongitude(longitude);
+    });
+    console.log(userLatitude, userLongitude);
+  }, [userLatitude, userLongitude]);
+  
   useEffect(() => {
+    handleUserLocation();
+
     api.get('users').then(response => {
       setUsers(response.data); 
     });
@@ -102,18 +108,19 @@ function ArtworksMap(){
     //     diametro:"15.9",
     //   }
     // ]);
-  }, []);
+  }, [handleUserLocation]);
 
-  console.log(artWorks);
+  console.log(artWorks[0]);
 
   return(
     <div id="page-map">
       <aside>
         <header>
+          <img src={imgLogo} alt="Clube do Colecionador"/>
           { users[0] &&
             <h2>Bem vindo(a) {users[0].name}!</h2>
           }
-          <p>Mais que amante da cultura, um colecionador de artes</p>
+          <p>Você já buscou a cultura hoje?</p>
         </header>
         <footer>
           <strong>Realidade aumentada</strong>
@@ -131,12 +138,12 @@ function ArtworksMap(){
       >
         {/* <TileLayer url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"></TileLayer> */}
         <TileLayer url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}></TileLayer>
-        {artWorks.map(artwork => {
+        {artWorks.map((artwork, index) => {
           return (
             <Marker 
-              key={artwork.id}
+              key={artwork._id}
               icon={mapIcon}
-              position={[artwork.latitude, artwork.longitude]}>
+              position={[userLatitude + index, userLongitude + index]}>
               <Popup 
               closeButton={false}
               minWidth={240}
@@ -144,7 +151,7 @@ function ArtworksMap(){
               className="map-popup"
               >
                 {artwork.titulo}
-                <Link to={`artworks/${artwork.id}`}>
+                <Link to={`artworks/${artwork._id}`}>
                   Coletar obra de arte
                     <FiCheck size={20} color='#fff' />
                 </Link>
@@ -158,10 +165,13 @@ function ArtworksMap(){
       <a href="https://josefina-tech.umbler.net/" className="vr-artwork vr-artwork-mobile">
         <FiCamera size={ 32 } color="#fff" />
       </a>
+      <a href="#" onClick={handleUserLocation} className="ranking-users">
+        <FiTrendingUp size={ 32 } color="#fff" />
+      </a>
 
-      <Link to="ar" className="create-artwork">
+      <a href="#" onClick={handleUserLocation} className="create-artwork">
         <FiNavigation size={ 32 } color="#fff" />
-      </Link>
+      </a>
     </div>
   );
 }
