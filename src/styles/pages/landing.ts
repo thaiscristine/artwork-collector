@@ -6,6 +6,10 @@ export const Container = styled.div`
   height: 100vh;
   display: flex;
   align-items: stretch;
+
+  img { 
+    max-width: 300px;
+  }
 `;
 
 export const Content = styled.div`
@@ -20,7 +24,7 @@ export const Content = styled.div`
   max-width: 700px;
 
   form {
-    margin: 80px 0;
+    margin:40px 0 40px ;
     width: 320px;
     text-align: center;
 

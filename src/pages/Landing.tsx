@@ -8,12 +8,14 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 
 import { Container, Content } from '../styles/pages/landing'
-// import logoImg from '../images/logo.svg'
+import imgLogo from '../images/logo_dark.svg'
+// import { useCookies } from 'react-cookie/es6';
 
 function Landing() {
 
   // const [id, setId] = useState('');
   const history = useHistory();
+  // const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
 
   async function handleLogin(e: any) {
     e.preventDefault();
@@ -21,10 +23,7 @@ function Landing() {
     try{
 
       // const response = await api.get(`users`);
-        
-      // localStorage.setItem('userId', id);
-      // localStorage.setItem('userName', response.data.name);
-
+        // setCookie('alert', 'ativo', { path: '/app' }); 
         history.push('/app');
       } catch (err) {
         alert('Falha no login, tente novamente');
@@ -34,7 +33,7 @@ function Landing() {
   return (
     <Container>
       <Content>
-      {/* <img src={logoImg} alt="Collectors" /> */}
+      <img src={imgLogo} alt="Clube do Colecionador"/>
       <form onSubmit={ handleLogin }>
         <h1>Faça o seu login</h1>
         <Input icon={FiMail} name="email" type="text" placeholder="E-mail" required />

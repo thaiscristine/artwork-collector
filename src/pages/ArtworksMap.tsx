@@ -9,6 +9,7 @@ import mapIcon from '../utils/mapIcon';
 
 import imgLogo from '../images/logo.png'
 import api from '../services/api';
+// import useCookies from 'react-cookie/es6/useCookies';
 
 interface User {
   charge: string;
@@ -42,6 +43,9 @@ function ArtworksMap(){
   const [users, setUsers] = useState<User[]>([]);
   const [artWorks, setArtWorks] = useState<Artwork[]>([]);
 
+  // const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
+
+  
   const handleUserLocation = useCallback(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
@@ -50,10 +54,16 @@ function ArtworksMap(){
     });
     console.log(userLatitude, userLongitude);
   }, [userLatitude, userLongitude]);
-  
+
+
+  function handleAlert() {
+    alert('Seus dados de acesso para a realidade aumentada são usuário:umbler e senha:testehospedagem');
+  }
+
   useEffect(() => {
     handleUserLocation();
 
+    
     api.get('users').then(response => {
       setUsers(response.data); 
     });
@@ -125,7 +135,7 @@ function ArtworksMap(){
         <footer>
           <strong>Realidade aumentada</strong>
             {/* <Link to="ar" className="vr-artwork vr-artwork-desktop"> */}
-            <a href="https://josefina-tech.umbler.net/" className="vr-artwork vr-artwork-desktop">
+            <a href="https://josefina-tech.umbler.net" onClick={handleAlert} className="vr-artwork vr-artwork-desktop">
               <FiCamera size={ 32 } color="#fff" />
             </a>
         </footer>
@@ -162,12 +172,12 @@ function ArtworksMap(){
       </Map>
 
       {/* <Link to="/artworks/create" className="create-artwork"> */}
-      <a href="https://josefina-tech.umbler.net/" className="vr-artwork vr-artwork-mobile">
+      <a href="https://josefina-tech.umbler.net" onClick={handleAlert} className="vr-artwork vr-artwork-mobile">
         <FiCamera size={ 32 } color="#fff" />
       </a>
-      <a href="#" onClick={handleUserLocation} className="ranking-users">
+      <Link to="ranking" className="ranking-users">
         <FiTrendingUp size={ 32 } color="#fff" />
-      </a>
+      </Link>
 
       <a href="#" onClick={handleUserLocation} className="create-artwork">
         <FiNavigation size={ 32 } color="#fff" />
