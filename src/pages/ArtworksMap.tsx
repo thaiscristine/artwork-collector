@@ -143,7 +143,7 @@ function ArtworksMap(){
             <Marker 
               key={artwork._id}
               icon={mapIcon}
-              position={[userLatitude + index, userLongitude + index]}>
+              position={[userLatitude + Math.floor(Math.random() * 40) - 18, userLongitude + Math.floor(Math.random() * 40) - 20]}>
               <Popup 
               closeButton={false}
               minWidth={240}
